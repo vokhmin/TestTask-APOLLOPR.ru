@@ -3,8 +3,9 @@ package net.vokhmin.testtask.apollo.model;
 public class FacebookUser implements User{
 	public static final String SERVICE_NAME = "Facebook";
 	
-	public void setScreenName(String screenName) {
+	public FacebookUser setScreenName(String screenName) {
 		this.screenName = screenName;
+		return this;
 	}
 
 	String screenName;

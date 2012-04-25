@@ -10,4 +10,9 @@
 	 -->
 	<import resource="classpath:/META-INF/application-context.xml"/>
 	
+	<bean id="facebookConnectionFactory" class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
+		<constructor-arg name="clientId" value="315112328562238" />
+		<constructor-arg name="clientSecret" value="9d98353d4b08fbe78f00283faae47f7d" />
+	</bean>
+	
 </beans>
