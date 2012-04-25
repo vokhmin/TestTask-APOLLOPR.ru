@@ -1,6 +1,7 @@
 package net.vokhmin.testtask.apollo.web;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.GrantType;
@@ -56,7 +58,7 @@ public class FacebookController {
             facebookSession.setOAuth(facebookSession.getConnectionFactory().getOAuthOperations());
             OAuth2Parameters params = new OAuth2Parameters();
             params.setRedirectUri(callbackURL.toString());
-            params.setScope("offline_access");
+            params.setScope("read_stream,offline_access");
             String authorizationUrl = facebookSession.getOAuth().buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, params);
             log.debug("return redirect to {}", authorizationUrl);
             response.sendRedirect(authorizationUrl);
@@ -80,13 +82,21 @@ public class FacebookController {
         	AccessGrant accessGrant = facebookSession.getOAuth().exchangeForAccess(authorizationCode, callbackURL.toString(), null);
         	Connection<Facebook> connection = facebookSession.getConnectionFactory().createConnection(accessGrant);
         	facebookSession.setConnection(connection);
+        	Facebook facebook = connection.getApi();
         	
         	//facebookSession.getConnection().
             FacebookUser user = new FacebookUser()
-        		.setScreenName(facebookSession.getConnection().getApi().userOperations().getUserProfile().getUsername());
+        		.setScreenName(facebook.userOperations().getUserProfile().getName());
 	        facebookSession.setUser(user);
 	        hm.getUsers().add(user);
-	        List<Post> feed = facebookSession.getConnection().getApi().feedOperations().getFeed();
+	        log.debug("access grant is '{}' and access token is '{}'", accessGrant, accessGrant.getAccessToken());
+	        FacebookTemplate template = new FacebookTemplate(accessGrant.getAccessToken());
+	        List<Post> feed = template.feedOperations().getFeed();
+	        log.debug("was getting {} feeds", feed.size());
+	        //List<String> friends = facebookSession.getConnection().getApi().friendOperations().getFriendIds();
+	        //for (String f : friends) {
+			//	hm.addStatus(new FacebookStatus().setUser(user).setPublishedAt(new Date()).setText(f));
+			//}
 	        for (Post s : feed) {
 				hm.addStatus(
 						new FacebookStatus()
