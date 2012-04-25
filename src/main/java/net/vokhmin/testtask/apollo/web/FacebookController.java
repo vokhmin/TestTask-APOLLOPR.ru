@@ -51,6 +51,10 @@ public class FacebookController {
 			@ModelAttribute("facebook") FacebookSession facebookSession
 			) throws ServletException {
         try {
+    		if (facebookSession.getConnection() != null) {
+    			log.debug("there is facebook connection already");
+    			response.sendRedirect(request.getContextPath()+ "/");
+    		}
             StringBuffer callbackURL = request.getRequestURL();
             int index = callbackURL.lastIndexOf("/");
             callbackURL.replace(index, callbackURL.length(), "").append("/callback");
@@ -120,8 +124,7 @@ public class FacebookController {
         //request.getSession().invalidate();
 		if (facebookSession.getUser() != null)
 			hm.removeUser(facebookSession.getUser());
-		facebookSession.getConnection();
-		facebookSession = null;
+		facebookSession.reset();
         response.sendRedirect(request.getContextPath()+ "/");
 	}
 }

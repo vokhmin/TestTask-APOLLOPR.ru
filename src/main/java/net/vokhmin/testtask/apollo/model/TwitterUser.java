@@ -11,7 +11,7 @@ public class TwitterUser implements User{
 	}
 
 	@Override
-	public String getScreenName() {
+	public String getDisplayName() {
 		return screenName;
 	}
 

@@ -60,4 +60,5 @@ public class HomeModel {
 		}
 		statuses.add(i, status);
 	}
+	
 }

@@ -5,14 +5,18 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.OAuth2Operations;
 
-import twitter4j.auth.RequestToken;
-
 public class FacebookSession {
 	
 	private FacebookConnectionFactory connectionFactory;
 	private Connection<Facebook> connection;
 	private FacebookUser user;
 	private OAuth2Operations oAuth;	
+	
+	public void reset() {
+		user = null;
+		connection = null;
+		oAuth = null;
+	}
 	
 	public void setUser(FacebookUser user) {
 		this.user = user;

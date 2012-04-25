@@ -15,4 +15,9 @@
 		<constructor-arg name="clientSecret" value="9d98353d4b08fbe78f00283faae47f7d" />
 	</bean>
 	
+	<bean id="twitterConnectionFactory" class="org.springframework.social.twitter.connect.TwitterConnectionFactory">
+		<constructor-arg name="consumerKey" value="J3Wll11kQrw24qGF8Sm5jA" />
+		<constructor-arg name="consumerSecret" value="MGPmCsouIngelryQ2KBBAWQv8i8v8lXYs9xvmFQ8KY" />
+	</bean>
+	
 </beans>

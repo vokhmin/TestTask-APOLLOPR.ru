@@ -11,7 +11,7 @@ public class FacebookUser implements User{
 	String screenName;
 
 	@Override
-	public String getScreenName() {
+	public String getDisplayName() {
 		return screenName;
 	}
 
